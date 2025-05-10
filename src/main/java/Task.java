@@ -1,20 +1,24 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public final class Task {
     private final int id;
     private String description;
     private Status status;
-    private final DateTime createdAt;
-    private DateTime updatedAt;
+    private final LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public Task(int id, String description){
         this.id = id;
         this.description = description;
         this.status = Status.TODO;
-        this.createdAt = new DateTime();
-        this.updatedAt = new DateTime();
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
-    public DateTime getCreationTime(){
-        return createdAt;
+    public String getCreationTime(){
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy | HH:mm:ss");
+        return createdAt.format(format);
     }
 
     public Status getStatus() {
@@ -23,6 +27,10 @@ public final class Task {
 
     public int getId() {
         return id;
+    }
+
+    public LocalDateTime getLastUpdatedAt() {
+        return updatedAt;
     }
 
     public void updateDescription(String description){
@@ -34,12 +42,15 @@ public final class Task {
     }
 
     public void changeUpdateTime(){
-        this.updatedAt.changeUpdateTime();
+        this.updatedAt = LocalDateTime.now();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
+        if (this
+
+                == obj) return true;
+        if (obj.getClass() != this.getClass()) return false;
 
         Task task = (Task) obj;
 

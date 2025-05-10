@@ -20,6 +20,21 @@ public class TaskManager {
         System.out.println("Task added successfully.");
     }
 
+    public void updateTask(int ID, String description) {
+        try {
+            Task task = taskFinderHelper(ID);
+            isListEmpty();
+            if (!taskList.contains(task)) throw new TaskNotFoundException();
+            task.updateDescription(description);
+        } catch (TaskNotFoundException e){
+            System.out.println("Task can not found. Please try again.");
+        }
+    }
+
+    public List<Task> getTaskList() {
+        return taskList;
+    }
+
     public void deleteTask(int ID) throws TaskNotFoundException {
         isListEmpty();
         Task toBeRemoved = taskList.stream()
@@ -43,21 +58,33 @@ public class TaskManager {
                 .forEach(System.out :: println);
     }
 
-    public void markProgress(Status status, Task task) {
-        if (taskList.contains(task)){
-            task.updateStatus(status);
-            return;
+    public void markProgress(Status status, int ID) {
+        try {
+            Task task = taskFinderHelper(ID);
+            if (taskList.contains(task)) {
+                task.updateStatus(status);
+            }
+        } catch (TaskNotFoundException e) {
+            System.out.println("Task can not be found on the task list. Please try again.");
+
         }
 
-        System.out.println("Task can not be found on the task list. Please try again.");
+    }
+
+    private Task taskFinderHelper(int id) throws TaskNotFoundException{
+        return taskList
+                .stream()
+                .filter(t -> t.getId() == id)
+                .findAny()
+                .orElseThrow(NoSuchFieldError::new);
     }
 
     private void isListEmpty(){
         if (taskList.isEmpty()){
-            System.out.println("List is empty.");
+            System.out.println("List is empty. Please try again.");
             return;
         }
     }
 
-    public class TaskNotFoundException extends Exception{}
+    public static class TaskNotFoundException extends Exception{}
 }

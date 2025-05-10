@@ -1,7 +1,7 @@
 public enum Status {
-    TODO("To-Do"),
-    DOING("In progress"),
-    DONE("Done");
+    TODO("to-do"),
+    DOING("in progress"),
+    DONE("done");
 
     private String status;
 
