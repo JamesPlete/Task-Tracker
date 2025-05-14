@@ -19,7 +19,10 @@ public final class Task {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
-
+  
+    public String getDescription() {
+        return description;
+    }
     public String getCreationTime() {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy | HH:mm:ss");
         return createdAt.format(format);
@@ -49,7 +52,7 @@ public final class Task {
     public void updateDescription(String description) {
         this.description = description;
     }
-
+  
     public void updateStatus(String status) {
         this.status = status;
     }
@@ -64,9 +67,14 @@ public final class Task {
         if (obj.getClass() != this.getClass()) return false;
 
         Task task = (Task) obj;
-
         return this.getId() == task.getId() && this.description.equals(task.description) && this.createdAt == task.createdAt;
     }
+
+    public String getCreationTime(){
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy | HH:mm:ss");
+        return createdAt.format(format);
+    }
+
 
     @Override
     public String toString() {

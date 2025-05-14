@@ -17,7 +17,7 @@ public class UI {
 
             try {
                 taskManager.processQuery(query);
-
+              
             } catch (TaskManager.TaskNotFoundException e) {
                 System.out.println("Task is not found in the list. Please try again.");
             } catch (TaskManager.TaskDuplicateException e){
@@ -25,4 +25,5 @@ public class UI {
             }
         }
     }
+  
 }
