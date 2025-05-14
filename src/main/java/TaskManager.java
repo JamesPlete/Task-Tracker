@@ -174,7 +174,6 @@ public class TaskManager {
             System.out.println("Invalid Query. Please try again.");
             return;
         }
-
         switch (taskQuery.get(0)){
 
         case "add" -> {
@@ -220,9 +219,7 @@ private boolean duplicateChecker(String description) {
             .noneMatch(description::equals);
 }
 
-public static class TaskNotFoundException extends RuntimeException {
-}
+public static class TaskNotFoundException extends RuntimeException {}
 
-public static class TaskDuplicateException extends RuntimeException {
-}
+public static class TaskDuplicateException extends RuntimeException {}
 }
