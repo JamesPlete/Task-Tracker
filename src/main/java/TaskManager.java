@@ -102,7 +102,7 @@ public class TaskManager {
     private boolean isQueryValid(String query) {
         List<String> structuredQuery = queryOrganizer(query);
 
-        List<String> queryKeys = List.of("add", "delete", "mark", "update", "list");
+        List<String> queryKeys = List.of("add", "delete", "mark", "update", "list", "exit");
         List<String> status = List.of("to-do", "in-progress", "done");
 
         if (structuredQuery.isEmpty() || !queryKeys.contains(structuredQuery.get(0))) {
@@ -154,6 +154,10 @@ public class TaskManager {
             case "list" -> {
                 return structuredQuery.size() == 1 || (structuredQuery.size() == 2 && status.contains(structuredQuery.get(1)));
             }
+
+            case "exit" -> {
+                return structuredQuery.size() == 1;
+            }
         }
 
         return false;
@@ -168,7 +172,8 @@ public class TaskManager {
     }
 
     public void processQuery(String query) throws TaskNotFoundException {
-        List<String> taskQuery = queryOrganizer(query);
+
+        List <String> taskQuery = queryOrganizer(query);
 
         if (!isQueryValid(query)) {
             System.out.println("Invalid Query. Please try again.");
@@ -201,6 +206,7 @@ public class TaskManager {
             System.out.println("Bye");
             System.exit(0);
         }
+
     }
 }
 
