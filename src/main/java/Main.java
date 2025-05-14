@@ -1,8 +1,8 @@
 
 public class Main {
     public static void main(String[] args) {
-        new UI().run();
+        UI ui = new UI();
 
-        //json nalangggg
+        ui.run();
     }
 }
