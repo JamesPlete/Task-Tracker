@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public final class Task {
+
     private final int id;
     private String description;
     private final String[] STATES = {"to-do", "in-progress", "done"};
@@ -11,7 +12,7 @@ public final class Task {
     private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Task(int id, String description){
+    public Task(int id, String description) {
         this.id = id;
         this.description = description;
         this.status = STATES[0];
@@ -19,7 +20,7 @@ public final class Task {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public String getCreationTime(){
+    public String getCreationTime() {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy | HH:mm:ss");
         return createdAt.format(format);
     }
@@ -45,15 +46,15 @@ public final class Task {
         return updatedAt;
     }
 
-    public void updateDescription(String description){
+    public void updateDescription(String description) {
         this.description = description;
     }
 
-    public void updateStatus(String status){
+    public void updateStatus(String status) {
         this.status = status;
     }
 
-    public void changeUpdateTime(){
+    public void changeUpdateTime() {
         this.updatedAt = LocalDateTime.now();
     }
 
@@ -68,7 +69,7 @@ public final class Task {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return id + ") " + description;
     }
 }

@@ -1,4 +1,3 @@
-import javax.crypto.spec.PSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -32,7 +31,9 @@ public class TaskManager {
             if (duplicateChecker(description)) {
                 task.updateDescription(description);
                 System.out.println("Task description updated.");
-            } else throw new TaskDuplicateException();
+            } else {
+                throw new TaskDuplicateException();
+            }
         } catch (TaskNotFoundException e) {
             System.out.println("Task not found. Please try again.");
         }
@@ -62,12 +63,11 @@ public class TaskManager {
         if (taskList.isEmpty()) {
             System.out.println("List is empty.");
         } else {
-
             Predicate<Task> checker = task -> task.getStatus().equals(status);
             System.out.println(status + " list: ");
             taskList.stream()
-                .filter(checker)
-                .forEach(System.out::println);
+                    .filter(checker)
+                    .forEach(System.out::println);
         }
     }
 
@@ -101,14 +101,12 @@ public class TaskManager {
         }
 
         switch (structuredQuery.get(0)) {
-
             case "add" -> {
                 if (structuredQuery.size() != 2) {
                     return false;
                 }
                 return structuredQuery.get(1).startsWith("\"") && structuredQuery.get(1).endsWith("\"");
             }
-
             case "update" -> {
                 if (structuredQuery.size() != 3) {
                     return false;
@@ -120,7 +118,6 @@ public class TaskManager {
                     return false;
                 }
             }
-
             case "delete" -> {
                 try {
                     Integer.parseInt(structuredQuery.get(1));
@@ -129,7 +126,6 @@ public class TaskManager {
                     return false;
                 }
             }
-
             case "mark" -> {
                 if (structuredQuery.size() < 3) {
                     return false;
@@ -141,9 +137,8 @@ public class TaskManager {
                     return false;
                 }
             }
-
             case "list" -> {
-                return structuredQuery.size() == 1 || structuredQuery.size() == 2 && status.contains(structuredQuery.get(1));
+                return structuredQuery.size() == 1 || (structuredQuery.size() == 2 && status.contains(structuredQuery.get(1)));
             }
         }
 
@@ -167,19 +162,16 @@ public class TaskManager {
         }
 
         switch (taskQuery.get(0)) {
-
             case "add" -> {
                 if (duplicateChecker(taskQuery.get(1))) {
                     addTask(new Task(++idCounter, taskQuery.get(1).replace("\"", "")));
-                } else throw new TaskDuplicateException();
+                } else {
+                    throw new TaskDuplicateException();
+                }
             }
-
             case "delete" -> deleteTask(Integer.parseInt(taskQuery.get(1)));
-
             case "update" -> updateTask(Integer.parseInt(taskQuery.get(1)), taskQuery.get(2).replace("\"", ""));
-
             case "mark" -> updateProgress(Integer.parseInt(taskQuery.get(1)), taskQuery.get(2));
-
             case "list" -> {
                 if (taskQuery.size() == 1) {
                     listTasks();
@@ -187,7 +179,6 @@ public class TaskManager {
                     listBasedOnProgress(taskQuery.get(1));
                 }
             }
-
             case "exit" -> {
                 System.out.println("Bye");
                 System.exit(0);
@@ -198,20 +189,21 @@ public class TaskManager {
     private List<String> queryOrganizer(String query) {
         List<String> list = new ArrayList<>();
         Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(query);
-        while (m.find())
+        while (m.find()) {
             list.add(m.group(1));
-
+        }
         return list;
     }
 
-    private boolean duplicateChecker(String description){
+    private boolean duplicateChecker(String description) {
         return taskList.stream()
                 .map(Task::getDescription)
                 .noneMatch(description::equals);
     }
 
-    public static class TaskNotFoundException extends RuntimeException {}
-    public static class TaskDuplicateException extends RuntimeException {}
+    public static class TaskNotFoundException extends RuntimeException {
+    }
 
-
+    public static class TaskDuplicateException extends RuntimeException {
+    }
 }
