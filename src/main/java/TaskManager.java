@@ -138,7 +138,7 @@ public class TaskManager {
                     return false;
                 }
             }
-            
+
             case "mark" -> {
                 if (structuredQuery.size() < 3) {
                     return false;
@@ -150,7 +150,7 @@ public class TaskManager {
                     return false;
                 }
             }
-            
+
             case "list" -> {
                 return structuredQuery.size() == 1 || (structuredQuery.size() == 2 && status.contains(structuredQuery.get(1)));
             }
@@ -174,54 +174,52 @@ public class TaskManager {
             System.out.println("Invalid Query. Please try again.");
             return;
         }
+        switch (taskQuery.get(0)){
 
-        switch (taskQuery.get(0)) {
-          
-            case "add" -> {
-                if (duplicateChecker(taskQuery.get(1))) {
-                    addTask(new Task(++idCounter, taskQuery.get(1).replace("\"", "")));
-                } else {
-                    throw new TaskDuplicateException();
-                }
-            }
-            case "delete" -> deleteTask(Integer.parseInt(taskQuery.get(1)));
-          
-            case "update" -> updateTask(Integer.parseInt(taskQuery.get(1)), taskQuery.get(2).replace("\"", ""));
-          
-            case "mark" -> updateProgress(Integer.parseInt(taskQuery.get(1)), taskQuery.get(2));
-          
-            case "list" -> {
-                if (taskQuery.size() == 1) {
-                    listTasks();
-                } else {
-                    listBasedOnProgress(taskQuery.get(1));
-                }
-            }
-            
-            case "exit" -> {
-                System.out.println("Bye");
-                System.exit(0);
+        case "add" -> {
+            if (duplicateChecker(taskQuery.get(1))) {
+                addTask(new Task(++idCounter, taskQuery.get(1).replace("\"", "")));
+            } else {
+                throw new TaskDuplicateException();
             }
         }
-    }
-    private List<String> queryOrganizer(String query) {
-        List<String> list = new ArrayList<>();
-        Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(query);
-        while (m.find()) {
-            list.add(m.group(1));
+        case "delete" -> deleteTask(Integer.parseInt(taskQuery.get(1)));
+
+        case "update" -> updateTask(Integer.parseInt(taskQuery.get(1)), taskQuery.get(2).replace("\"", ""));
+
+        case "mark" -> updateProgress(Integer.parseInt(taskQuery.get(1)), taskQuery.get(2));
+
+        case "list" -> {
+            if (taskQuery.size() == 1) {
+                listTasks();
+            } else {
+                listBasedOnProgress(taskQuery.get(1));
+            }
         }
-        return list;
-    }
 
-    private boolean duplicateChecker(String description) {
-        return taskList.stream()
-                .map(Task::getDescription)
-                .noneMatch(description::equals);
+        case "exit" -> {
+            System.out.println("Bye");
+            System.exit(0);
+        }
     }
+}
 
-    public static class TaskNotFoundException extends RuntimeException {
+private List<String> queryOrganizer(String query) {
+    List<String> list = new ArrayList<>();
+    Matcher m = Pattern.compile("([^\"]\\S*|\".+?\")\\s*").matcher(query);
+    while (m.find()) {
+        list.add(m.group(1));
     }
+    return list;
+}
 
-    public static class TaskDuplicateException extends RuntimeException {
-    }
+private boolean duplicateChecker(String description) {
+    return taskList.stream()
+            .map(Task::getDescription)
+            .noneMatch(description::equals);
+}
+
+public static class TaskNotFoundException extends RuntimeException {}
+
+public static class TaskDuplicateException extends RuntimeException {}
 }
