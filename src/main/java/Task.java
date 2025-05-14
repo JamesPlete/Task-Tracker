@@ -1,17 +1,20 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Objects;
 
 public final class Task {
     private final int id;
     private String description;
-    private Status status;
+    private final String[] STATES = {"to-do", "in-progress", "done"};
+    private String status;
     private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public Task(int id, String description){
         this.id = id;
         this.description = description;
-        this.status = Status.TODO;
+        this.status = STATES[0];
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
@@ -21,12 +24,21 @@ public final class Task {
         return createdAt.format(format);
     }
 
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getDescription(), Arrays.hashCode(STATES), getStatus(), createdAt, updatedAt);
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public LocalDateTime getLastUpdatedAt() {
@@ -37,7 +49,7 @@ public final class Task {
         this.description = description;
     }
 
-    public void updateStatus(Status status){
+    public void updateStatus(String status){
         this.status = status;
     }
 
@@ -47,9 +59,7 @@ public final class Task {
 
     @Override
     public boolean equals(Object obj) {
-        if (this
-
-                == obj) return true;
+        if (this == obj) return true;
         if (obj.getClass() != this.getClass()) return false;
 
         Task task = (Task) obj;
