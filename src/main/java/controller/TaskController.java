@@ -34,14 +34,14 @@ public class TaskController {
     }
 
     public void updateTask(int id, String description) throws TaskControllerUtility.TaskDuplicateException {
-        Task task = TaskControllerUtility.taskFinderHelper(id, taskList);
+        Task task = TaskControllerUtility.taskFinder(id, taskList);
         task.updateDescription(description);
         TaskControllerUtility.saveToFile(taskList, mapper, jsonFile);
     }
 
     public void updateProgress(int id, String status) throws TaskControllerUtility.TaskNotFoundException {
         try {
-            Task task = TaskControllerUtility.taskFinderHelper(id, taskList);
+            Task task = TaskControllerUtility.taskFinder(id, taskList);
             Status progress = Arrays.stream(Status.values())
                     .filter(s -> s.getStatus().equals(status))
                     .findFirst()

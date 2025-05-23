@@ -138,7 +138,7 @@ public class TaskControllerUtility {
         return list;
     }
 
-    public static Task taskFinderHelper(int id, List<Task> taskList) throws TaskNotFoundException {
+    public static Task taskFinder(int id, List<Task> taskList) throws TaskNotFoundException {
         return taskList.stream()
                 .filter(t -> t.getId() == id)
                 .findAny()
