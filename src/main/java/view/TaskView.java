@@ -26,15 +26,15 @@ public class TaskView {
         System.out.println();
 
         while (!query.equals("exit")) {
-            System.out.print("task-tracker-app: ");
+            System.out.print("\ntask-tracker-app: ");
             query = scan.nextLine();
 
             try {
                 processQuery(query, taskController);
             } catch (TaskControllerUtility.TaskNotFoundException e) {
-                System.out.println("Task is not found in the list. Please try again.");
+                System.out.println("\nTask is not found in the list. Please try again.");
             } catch (TaskControllerUtility.TaskDuplicateException e) {
-                System.out.println("Error. Task is already in the database.");
+                System.out.println("\nError. Task is already in the database.");
             }
         }
     }

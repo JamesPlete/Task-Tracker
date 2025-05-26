@@ -65,13 +65,23 @@ public class TaskController {
         }
     }
 
+    public int getIdCounter() {
+        return idCounter;
+    }
+
     public void listTasks() {
-        taskList.forEach(System.out::println);
+        if (taskList.isEmpty()) System.out.println("No tasks yet.");
+        else taskList.forEach(System.out::println);
     }
 
     public void listBasedOnProgress(String status) {
-        taskList.stream()
-                .filter(t -> t.getStatus().equals(status))
-                .forEach(System.out::println);
+        if (taskList.isEmpty()) System.out.println("No tasks yet.");
+        else {
+            if (taskList.stream().noneMatch(t -> t.getStatus().equals(status)))
+                System.out.println(status.toUpperCase() + " tasks empty.");
+            else taskList.stream()
+                    .filter(t -> t.getStatus().equals(status))
+                    .forEach(System.out::println);
+        }
     }
 }
